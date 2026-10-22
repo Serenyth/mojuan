@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * 墨卷 · 桌面工作台（浅色默认）／夜间（可选）
+ *
+ * 2026-10-18 整体替换「夜读」：浅色画布 + 白卡 + 柔和阴影 + 圆角，
+ * 主色紫、五状态色（成功绿 / 错误红 / 警告橙 / 信息蓝 / 知识点紫）。
+ * 夜间不是反色，是同一套令牌的暗色对应值，[data-theme='dark'] 全覆盖。
+ *
+ * token 名称是契约的一部分：改值不改名、只增不减。
+ * 每个色都有两兄弟，必须成对维护：
+ *   --x      十六进制，给 SVG fill / 原生 CSS 直接引用
+ *   --x-rgb  空格分隔的 RGB 三元组，给 Tailwind 的 /透明度 修饰符
+ * Tailwind 3 无法给 var(--hex) 套 alpha，只认 rgb(var(--x-rgb) / <alpha-value>)，
+ * 少了 -rgb 那份，bg-primary/10、border-success/30 这类类名会被静默丢弃。
+ */
+@layer base {
+  :root {
+    /* 默认即浅色：白卡浮在浅灰画布上，点阵纹理给画布一点质地 */
+    color-scheme: light;
+
+    --canvas: #f4f5f8;
+    --canvas-rgb: 244 245 248;
+    --surface: #ffffff;
+    --surface-rgb: 255 255 255;
+    --surface-raised: #f7f8fa;
+    --surface-raised-rgb: 247 248 250;
+    --surface-overlay: #ffffff;
+    --surface-overlay-rgb: 255 255 255;
+    --sunken: #eef0f4;
+    --sunken-rgb: 238 240 244;
+
+    --line: #e4e7ec;
+    --line-rgb: 228 231 236;
+    --line-soft: #eef0f4;
+    --line-soft-rgb: 238 240 244;
+    --line-strong: #cfd4dc;
+    --line-strong-rgb: 207 212 220;
+
+    --ink: #101828;
+    --ink-rgb: 16 24 40;
+    --ink-muted: #667085;
+    --ink-muted-rgb: 102 112 133;
+    --ink-faint: #98a2b3;
+    --ink-faint-rgb: 152 162 179;
+
+    /* 主色：品牌与主要动作 */
+    --primary: #5b3df5;
+    --primary-rgb: 91 61 245;
+    --primary-hover: #4a2ee0;
+    --primary-hover-rgb: 74 46 224;
+    /* 主色文字（落在 primary 软底上的文本色，夜间提亮） */
+    --primary-text: #5b3df5;
+    --primary-text-rgb: 91 61 245;
+    --on-primary: #ffffff;
+    --on-primary-rgb: 255 255 255;
+
+    /* 五状态色：solid 供图标 / 实底，-deep 供软底上的文字 */
+    --success: #12b76a;
+    --success-rgb: 18 183 106;
+    --success-deep: #05603a;
+    --success-deep-rgb: 5 96 58;
+
+    --danger: #f04438;
+    --danger-rgb: 240 68 56;
+    --danger-deep: #912018;
+    --danger-deep-rgb: 145 32 24;
+
+    --warning: #f79009;
+    --warning-rgb: 247 144 9;
+    --warning-deep: #93370d;
+    --warning-deep-rgb: 147 55 13;
+
+    --info: #2e90fa;
+    --info-rgb: 46 144 250;
+    --info-deep: #175cd3;
+    --info-deep-rgb: 23 92 211;
+
+    --violet: #7a5af8;
+    --violet-rgb: 122 90 248;
+    --violet-deep: #4a1fb8;
+    --violet-deep-rgb: 74 31 184;
+
+    /* 三级柔和阴影 + 主色光晕 */
+    --shadow-paper: 0 1px 2px rgba(16, 24, 40, 0.05);
+    --shadow-lifted: 0 1px 3px rgba(16, 24, 40, 0.07),
+      0 8px 24px -8px rgba(16, 24, 40, 0.1);
+    --shadow-overlay: 0 2px 6px rgba(16, 24, 40, 0.07),
+      0 18px 44px -10px rgba(16, 24, 40, 0.14);
+    --shadow-glow: 0 1px 2px rgba(91, 61, 245, 0.3),
+      0 6px 16px -4px rgba(91, 61, 245, 0.35);
+
+    /* 画布点阵 */
+    --canvas-dot: rgba(16, 24, 40, 0.06);
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --canvas: #0c0e12;
+    --canvas-rgb: 12 14 18;
+    --surface: #14171d;
+    --surface-rgb: 20 23 29;
+    --surface-raised: #1a1e25;
+    --surface-raised-rgb: 26 30 37;
+    --surface-overlay: #20252e;
+    --surface-overlay-rgb: 32 37 46;
+    --sunken: #222731;
+    --sunken-rgb: 34 39 49;
+
+    --line: #272d38;
+    --line-rgb: 39 45 56;
+    --line-soft: #21262f;
+    --line-soft-rgb: 33 38 47;
+    --line-strong: #364052;
+    --line-strong-rgb: 54 64 82;
+
+    --ink: #f2f4f7;
+    --ink-rgb: 242 244 247;
+    --ink-muted: #98a2b3;
+    --ink-muted-rgb: 152 162 179;
+    --ink-faint: #6b7484;
+    --ink-faint-rgb: 107 116 132;
+
+    --primary-text: #b9a5fc;
+    --primary-text-rgb: 185 165 252;
+    --on-primary: #ffffff;
+    --on-primary-rgb: 255 255 255;
+
+    --success-deep: #6ee7b7;
+    --success-deep-rgb: 110 231 183;
+
+    --danger-deep: #fda29b;
+    --danger-deep-rgb: 253 162 155;
+
+    --warning-deep: #fec84b;
+    --warning-deep-rgb: 254 200 75;
+
+    --info-deep: #84caff;
+    --info-deep-rgb: 132 202 255;
+
+    --violet-deep: #c9bdfd;
+    --violet-deep-rgb: 201 189 253;
+
+    --shadow-paper: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-lifted: 0 1px 3px rgba(0, 0, 0, 0.45),
+      0 8px 24px -8px rgba(0, 0, 0, 0.5);
+    --shadow-overlay: 0 2px 6px rgba(0, 0, 0, 0.5),
+      0 18px 44px -10px rgba(0, 0, 0, 0.55);
+    --shadow-glow: 0 1px 2px rgba(91, 61, 245, 0.4),
+      0 6px 18px -4px rgba(91, 61, 245, 0.45);
+
+    --canvas-dot: rgba(255, 255, 255, 0.045);
+  }
+
+  html {
+    background: var(--canvas);
+  }
+
+  /* 画布点阵：给浅灰底一点质地，不是装饰图层 */
+  body {
+    background-color: var(--canvas);
+    background-image: radial-gradient(var(--canvas-dot) 1px, transparent 1.2px);
+    background-size: 26px 26px;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+      'HarmonyOS Sans SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms ease;
+  }
+
+  ::selection {
+    background: rgb(var(--primary-rgb) / 0.22);
+    color: var(--ink);
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border: 3px solid transparent;
+    border-radius: 99px;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--line-strong);
+    background-clip: content-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink
+      placeholder:text-ink-faint transition-all duration-200 ease-out
+      hover:border-line-strong
+      focus:border-primary focus:ring-2 focus:ring-primary/20 focus-ring;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[13px] text-ink-muted;
+  }
+
+  .hr-seal {
+    @apply border-t border-line;
+  }
+
+  /* 朱批：批改留下的记号（保留类名，改主色） */
+  .zhushi {
+    @apply h-px w-10 bg-primary;
+  }
+
+  /* 长 token 断行：URL、无空格串这类不断行内容会把 grid / flex 子项撑爆。
+     overflow-wrap: anywhere 才会收窄 min-content（break-word 不参与内在尺寸计算），
+     两者换行表现一致，差别只在能否被父级网格轨道 / 弹性项的正确 intrinsic 尺寸看见。 */
+  .break-anywhere {
+    overflow-wrap: anywhere;
+  }
+
+  /* 卷面：承载内容的卡片 */
+  .scroll-sheet {
+    @apply rounded-lg border border-line bg-surface shadow-paper;
+  }
+
+  /* 入场编排：父级加 .stagger，子项自动依次浮起 */
+  .stagger > * {
+    animation: rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .stagger > *:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  .stagger > *:nth-child(2) {
+    animation-delay: 45ms;
+  }
+  .stagger > *:nth-child(3) {
+    animation-delay: 90ms;
+  }
+  .stagger > *:nth-child(4) {
+    animation-delay: 135ms;
+  }
+  .stagger > *:nth-child(5) {
+    animation-delay: 180ms;
+  }
+  .stagger > *:nth-child(6) {
+    animation-delay: 225ms;
+  }
+  .stagger > *:nth-child(7) {
+    animation-delay: 270ms;
+  }
+  .stagger > *:nth-child(n + 8) {
+    animation-delay: 315ms;
+  }
+
+  /* 骨架屏微光 */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgb(var(--ink-rgb) / 0.06), transparent);
+    animation: sweep 1.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}

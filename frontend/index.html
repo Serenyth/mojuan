@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>墨卷 · 刷题训练台</title>
+    <script>
+      // 在首次绘制前定好主题，避免切换瞬间闪一下
+      // 浅色是主调（桌面工作台），未手动选过就走日间；夜间可在界面里切换
+      (function () {
+        try {
+          var saved = localStorage.getItem('mojuan-theme');
+          document.documentElement.dataset.theme =
+            saved === 'light' || saved === 'dark' ? saved : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
