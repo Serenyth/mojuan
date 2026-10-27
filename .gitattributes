@@ -1,0 +1,18 @@
+# 统一用 LF 存库，避免 Windows 的 CRLF 在协作时产生整片假差异
+* text=auto eol=lf
+
+# 批处理例外：cmd 在 LF-only 下找不到 `:label`（call :x 报「找不到批处理标签」），必须 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+*.xlsx binary
+*.docx binary

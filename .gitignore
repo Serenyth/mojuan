@@ -1,0 +1,51 @@
+# 依赖与构建产物
+node_modules/
+frontend/dist/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# SQLite 数据库及其 WAL 边车文件（由 python seed.py 重建，勿入库）
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# 运行期数据：上传的原材料、归一化产物、脚本磁盘副本（本机生成，勿入库）
+data/uploads/
+data/normalized/
+data/scripts/
+
+# 本地环境变量
+.env
+.env.local
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志
+*.log
+
+# 各 AI 的工作记忆目录（非源码，也避免互相读到对方的私密笔记）
+.workbuddy/
+.workbuddy-ai/
+
+# 开发过程文档与项目衍生物（仅本地保留，不入库）
+# 仓库只放 backend/ 与 frontend/ 源码 + README + start.bat + README 截图
+/CONTRACT.md
+/demo/
+/scripts/
+/刷题网页-设计方案.md
+/协作分工.md
+
+# docs/ 下只有 README 用的界面截图需要跟着 README 一起入库
+/docs/*
+!/docs/screenshots/
